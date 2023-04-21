@@ -11,7 +11,7 @@ const { Meta } = Card;
 const CardProduct: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [cardObject, setCardObject] = useState<{[key: string]: number}>({});
+  const [cardObject, setCardObject] = useState<{[key: string]: {product: Product, quantity: number}}>({});
 
   const handleClickImage = (product: any) => {
     setSelectedProduct(product);
@@ -27,16 +27,16 @@ const CardProduct: React.FC = () => {
     setCardObject((prevCardObject) => {
       const newCardObject = {...prevCardObject};
       if (product.id in newCardObject) {
-        newCardObject[product.id] += 1;
+        newCardObject[product.id].quantity += 1;
       } else {
-        newCardObject[product.id] = 1;
+        newCardObject[product.id] = { product, quantity: 1 };
       }
       return newCardObject;
     });
   }
 
   const quantityInCard = (productId: number) => {
-    return cardObject[productId] || 0;
+    return cardObject[productId]?.quantity || 0;
   }
 
   return (
